@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You — Youssef Ait Aissa</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .thanks-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+      background: #0a0a0a;
+    }
+    .thanks-icon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+      animation: bounce 1s ease infinite alternate;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+    .thanks-page h1 {
+      font-size: 2.5rem;
+      color: #00d4aa;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .thanks-page p {
+      color: #888;
+      font-size: 1.1rem;
+      max-width: 500px;
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .thanks-page .email-note {
+      color: #00d4aa;
+      font-size: 0.95rem;
+      margin: 1.5rem 0;
+      padding: 1rem 1.5rem;
+      background: rgba(0, 212, 170, 0.1);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 10px;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: #00d4aa;
+      text-decoration: none;
+      border: 2px solid #00d4aa;
+      padding: 0.875rem 2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .back-link:hover {
+      background: #00d4aa;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 212, 170, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="thanks-page">
+    <div class="thanks-icon">✅</div>
+    <h1>Message Sent Successfully!</h1>
+    <p>Thanks for reaching out. I've received your request.</p>
+    <p>You'll receive your <strong>free sample</strong> within 24 hours.</p>
+    <div class="email-note">📧 A confirmation has been sent to your email</div>
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </div>
+</body>
+</html>
