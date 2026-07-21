@@ -1,946 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Youssef Ait Aissa - Data Scraping Expert</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #0ea5e9;
-            --primary-dark: #0284c7;
-            --secondary: #6366f1;
-            --accent: #f59e0b;
-            --bg: #ffffff;
-            --bg-soft: #f8fafc;
-            --bg-muted: #f1f5f9;
-            --text: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
-            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links { display: flex; gap: 2rem; list-style: none; }
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover { color: var(--primary); }
-
-        .nav-cta {
-            background: var(--primary);
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .nav-cta:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 5% 4rem;
-            background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #eff6ff 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(14,165,233,0.1);
-            border: 1px solid rgba(14,165,233,0.2);
-            color: var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            width: fit-content;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--text);
-        }
-
-        .hero h1 span {
-            color: var(--primary);
-            position: relative;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            max-width: 500px;
-        }
-
-        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            box-shadow: 0 10px 30px rgba(14,165,233,0.3);
-        }
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(14,165,233,0.4);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--text);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: 2px solid var(--border);
-            transition: all 0.3s;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            box-shadow: var(--shadow);
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 2.5rem;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .stat { text-align: center; }
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* Hero Visual */
-        .hero-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-card {
-            background: white;
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            max-width: 400px;
-            transform: rotate(-2deg);
-            transition: transform 0.5s;
-        }
-        .hero-card:hover { transform: rotate(0deg); }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .card-avatar {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .card-info h4 { font-weight: 700; font-size: 1rem; }
-        .card-info p { font-size: 0.85rem; color: var(--text-muted); }
-
-        .card-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(34,197,94,0.1);
-            color: #16a34a;
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: auto;
-        }
-        .card-status::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: #16a34a;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .data-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-        }
-        .data-row:last-child { border-bottom: none; }
-        .data-label { color: var(--text-muted); font-weight: 500; }
-        .data-value { font-weight: 600; color: var(--text); }
-        .data-value.positive { color: #16a34a; }
-
-        .progress-bar {
-            height: 6px;
-            background: var(--bg-muted);
-            border-radius: 10px;
-            margin-top: 0.5rem;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            transition: width 1s ease;
-        }
-
-        /* Services */
-        .services {
-            padding: 6rem 5%;
-            background: var(--bg-soft);
-        }
-
-        .section-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 4rem;
-        }
-        .section-header h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-        .section-header h2 span { color: var(--primary); }
-        .section-header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-        .service-card:hover::before { transform: scaleX(1); }
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
-        }
-
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, rgba(14,165,233,0.1), rgba(99,102,241,0.1));
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-        .service-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
-        .service-card p { color: var(--text-muted); font-size: 0.95rem; }
-
-        /* Process */
-        .process {
-            padding: 6rem 5%;
-            background: white;
-        }
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .step {
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-        }
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 30px rgba(14,165,233,0.3);
-        }
-        .step h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
-        .step p { color: var(--text-muted); font-size: 0.95rem; }
-
-        /* Portfolio */
-        .portfolio {
-            padding: 6rem 5%;
-            background: var(--bg-soft);
-        }
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .portfolio-item {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-        .portfolio-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-        .portfolio-img {
-            height: 200px;
-            background: linear-gradient(135deg, #e0f2fe 0%, #ddd6fe 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: var(--primary);
-        }
-        .portfolio-content { padding: 1.5rem; }
-        .portfolio-content h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
-        .portfolio-content p { color: var(--text-muted); font-size: 0.9rem; }
-        .portfolio-tags {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            flex-wrap: wrap;
-        }
-        .tag {
-            background: rgba(14,165,233,0.1);
-            color: var(--primary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        /* CTA */
-        .cta-section {
-            padding: 6rem 5%;
-            text-align: center;
-            background: white;
-        }
-        .cta-box {
-            max-width: 800px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 30px;
-            padding: 4rem 2rem;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(14,165,233,0.2);
-        }
-        .cta-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-        }
-        .cta-box h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-        .cta-box p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            position: relative;
-        }
-        .cta-box .btn-primary {
-            background: white;
-            color: var(--primary);
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .cta-box .btn-primary:hover {
-            background: var(--bg-soft);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-
-        /* Contact */
-        .contact {
-            padding: 6rem 5%;
-            background: var(--bg-soft);
-        }
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            align-items: start;
-        }
-        .contact-info h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-        .contact-info p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--text);
-            text-decoration: none;
-            padding: 1rem 1.5rem;
-            background: white;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-        .contact-link:hover {
-            border-color: var(--primary);
-            transform: translateX(5px);
-            box-shadow: var(--shadow);
-        }
-        .contact-link i {
-            color: var(--primary);
-            font-size: 1.2rem;
-            width: 24px;
-        }
-
-        .contact-form {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-        }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 1rem;
-            background: var(--bg-soft);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
-        }
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* Footer */
-        footer {
-            padding: 2rem 5%;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            background: white;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-content { grid-template-columns: 1fr; text-align: center; }
-            .hero h1 { font-size: 2.5rem; }
-            .hero-stats { justify-content: center; }
-            .hero-visual { display: none; }
-            .contact-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
-            .services-grid, .portfolio-grid { grid-template-columns: 1fr; }
-        }
-
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Youssef Ait Aissa - Data Scraping Expert</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <div class="logo">
-            <i class="fas fa-spider"></i>
-            <span>Youssef Ait Aissa</span>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#process">Process</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a href="#contact" class="nav-cta">Get Free Sample</a>
-    </nav>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">Youssef Ait Aissa</div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get Free Sample</a>
+  </nav>
 
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <div class="hero-badge">
-                    <i class="fas fa-bolt"></i>
-                    Available for New Projects
-                </div>
-                <h1>Turn Website Data into <span>Actionable Insights</span></h1>
-                <p>Web Scraping & Data Automation Expert with 6+ years of experience. I help e-commerce brands and businesses extract, clean, and organize data from any website.</p>
-                <div class="hero-buttons">
-                    <a href="#contact" class="btn-primary">
-                        <i class="fas fa-rocket"></i>
-                        Start Your Project
-                    </a>
-                    <a href="https://www.fiverr.com/joae19901213" target="_blank" class="btn-secondary">
-                        <i class="fas fa-globe"></i>
-                        View Fiverr Profile
-                    </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Sites Scraped</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">100+</div>
-                        <div class="stat-label">Happy Clients</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">24h</div>
-                        <div class="stat-label">Delivery Time</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-card">
-                    <div class="card-header">
-                        <div class="card-avatar">YA</div>
-                        <div class="card-info">
-                            <h4>Youssef Ait Aissa</h4>
-                            <p>Data Scraping Expert</p>
-                        </div>
-                        <span class="card-status">Available</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="data-label">Projects Completed</span>
-                        <span class="data-value">1,000+</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="data-label">Success Rate</span>
-                        <span class="data-value positive">99.5%</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="data-label">Response Time</span>
-                        <span class="data-value">&lt; 2 hours</span>
-                    </div>
-                    <div class="data-row">
-                        <span class="data-label">Client Satisfaction</span>
-                        <span class="data-value positive">5.0 ★</span>
-                    </div>
-                    <div style="margin-top: 1rem;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;">
-                            <span style="font-size:0.85rem; color:var(--text-muted);">Profile Strength</span>
-                            <span style="font-size:0.85rem; font-weight:600; color:var(--primary);">100%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 100%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">Available for New Projects</div>
+    <h1>Turn Website Data into Actionable Insights</h1>
+    <p>Web Scraping & Data Automation Expert with 6+ years of experience. I help e-commerce brands and businesses extract, clean, and organize data from any website.</p>
+    <a href="#contact" class="hero-cta">Get Free Sample</a>
+  </section>
 
-    <section class="services" id="services">
-        <div class="section-header">
-            <h2>What I <span>Deliver</span></h2>
-            <p>From raw web data to clean, organized Excel files — I handle the entire process so you can focus on growing your business.</p>
-        </div>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon"><i class="fas fa-spider"></i></div>
-                <h3>Web Scraping</h3>
-                <p>Extract product data, prices, reviews, and descriptions from Amazon, Shopify, eBay, and any e-commerce platform.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fas fa-broom"></i></div>
-                <h3>Data Cleaning</h3>
-                <p>Remove duplicates, fix formatting, and organize your data into structured, ready-to-use Excel files.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fas fa-chart-line"></i></div>
-                <h3>Competitor Analysis</h3>
-                <p>Monitor competitor prices, product catalogs, and market trends to stay ahead of the competition.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fas fa-address-book"></i></div>
-                <h3>B2B Lead Generation</h3>
-                <p>Scrape business directories and professional networks to build targeted lead lists for your sales team.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fas fa-robot"></i></div>
-                <h3>Automation Scripts</h3>
-                <p>Custom Python scripts that run on schedule to keep your data fresh without manual intervention.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon"><i class="fas fa-file-excel"></i></div>
-                <h3>Excel Reporting</h3>
-                <p>Beautiful, organized Excel reports with filters, charts, and pivot tables for easy analysis.</p>
-            </div>
-        </div>
-    </section>
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stat-item">
+      <span class="stat-number">500+</span>
+      <span class="stat-label">Sites Scraped</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">100+</span>
+      <span class="stat-label">Happy Clients</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">24h</span>
+      <span class="stat-label">Delivery Time</span>
+    </div>
+  </section>
 
-    <section class="process" id="process">
-        <div class="section-header">
-            <h2>How It <span>Works</span></h2>
-            <p>Simple, transparent process from start to finish.</p>
-        </div>
-        <div class="process-steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Share Your Needs</h3>
-                <p>Tell me what website you want scraped and what data you need. I'll analyze the project and give you a quote.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>I Get to Work</h3>
-                <p>I build a custom scraper using Python, BeautifulSoup, and Selenium to extract exactly what you need.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Clean & Deliver</h3>
-                <p>Data is cleaned, organized, and delivered in Excel format within 24-48 hours with 99%+ accuracy.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">4</div>
-                <h3>Ongoing Support</h3>
-                <p>Need updates? I can set up automated scripts to keep your data fresh on a schedule.</p>
-            </div>
-        </div>
-    </section>
+  <!-- Services Section -->
+  <section id="services" class="services">
+    <h2 class="section-title">What I Do</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🕷️</div>
+        <h3>Web Scraping</h3>
+        <p>Extract product data, prices, reviews, and descriptions from Amazon, Shopify, eBay, and any e-commerce platform.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🧹</div>
+        <h3>Data Cleaning</h3>
+        <p>Remove duplicates, fix formatting, and organize your data into structured, ready-to-use Excel files.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3>Competitor Analysis</h3>
+        <p>Monitor competitor prices, product catalogs, and market trends to stay ahead of the competition.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🎯</div>
+        <h3>B2B Lead Generation</h3>
+        <p>Scrape business directories and professional networks to build targeted lead lists for your sales team.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚙️</div>
+        <h3>Automation Scripts</h3>
+        <p>Custom Python scripts that run on schedule to keep your data fresh without manual intervention.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <h3>Excel Reporting</h3>
+        <p>Beautiful, organized Excel reports with filters, charts, and pivot tables for easy analysis.</p>
+      </div>
+    </div>
+  </section>
 
-    <section class="portfolio" id="portfolio">
-        <div class="section-header">
-            <h2>Recent <span>Projects</span></h2>
-            <p>Real results for real businesses. Every project delivered on time with 99%+ accuracy.</p>
+  <!-- Process Section -->
+  <section id="process" class="process">
+    <h2 class="section-title">How It Works</h2>
+    <div class="process-steps">
+      <div class="step">
+        <span class="step-number">1</span>
+        <h3>Share Your Needs</h3>
+        <p>Tell me what website you want scraped and what data you need. I'll analyze the project and give you a quote.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">2</span>
+        <h3>I Get to Work</h3>
+        <p>I build a custom scraper using Python, BeautifulSoup, and Selenium to extract exactly what you need.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">3</span>
+        <h3>Clean & Deliver</h3>
+        <p>Data is cleaned, organized, and delivered in Excel format within 24-48 hours with 99%+ accuracy.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">4</span>
+        <h3>Ongoing Support</h3>
+        <p>Need updates? I can set up automated scripts to keep your data fresh on a schedule.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="portfolio">
+    <h2 class="section-title">Recent Projects</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-card">
+        <h3>E-commerce Product Catalog</h3>
+        <p>Scraped 10,000+ products from Amazon including prices, ratings, descriptions, and images for a retail brand.</p>
+        <div class="portfolio-tags">
+          <span>Amazon</span>
+          <span>10K Products</span>
+          <span>24h Delivery</span>
         </div>
-        <div class="portfolio-grid">
-            <div class="portfolio-item">
-                <div class="portfolio-img"><i class="fas fa-shopping-cart"></i></div>
-                <div class="portfolio-content">
-                    <h3>E-commerce Product Catalog</h3>
-                    <p>Scraped 10,000+ products from Amazon including prices, ratings, descriptions, and images for a retail brand.</p>
-                    <div class="portfolio-tags">
-                        <span class="tag">Amazon</span>
-                        <span class="tag">10K Products</span>
-                        <span class="tag">24h Delivery</span>
-                    </div>
-                </div>
-            </div>
-            <div class="portfolio-item">
-                <div class="portfolio-img"><i class="fas fa-home"></i></div>
-                <div class="portfolio-content">
-                    <h3>Real Estate Lead Database</h3>
-                    <p>Built a comprehensive B2B lead database for a Spanish real estate agency with 5,000+ property listings.</p>
-                    <div class="portfolio-tags">
-                        <span class="tag">Real Estate</span>
-                        <span class="tag">Spain</span>
-                        <span class="tag">5K Leads</span>
-                    </div>
-                </div>
-            </div>
-            <div class="portfolio-item">
-                <div class="portfolio-img"><i class="fas fa-chart-bar"></i></div>
-                <div class="portfolio-content">
-                    <h3>Competitor Price Monitoring</h3>
-                    <p>Automated daily price tracking for 50+ competitors across multiple e-commerce platforms.</p>
-                    <div class="portfolio-tags">
-                        <span class="tag">Automation</span>
-                        <span class="tag">Daily Updates</span>
-                        <span class="tag">50+ Sites</span>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="portfolio-card">
+        <h3>Real Estate Lead Database</h3>
+        <p>Built a comprehensive B2B lead database for a Spanish real estate agency with 5,000+ property listings.</p>
+        <div class="portfolio-tags">
+          <span>Real Estate</span>
+          <span>Spain</span>
+          <span>5K Leads</span>
         </div>
-    </section>
-
-    <section class="cta-section">
-        <div class="cta-box">
-            <h2>Ready to Automate Your Data?</h2>
-            <p>Stop wasting hours on manual data entry. Let me handle the scraping so you can focus on growing your business.</p>
-            <a href="#contact" class="btn-primary">
-                <i class="fas fa-paper-plane"></i>
-                Get Your Free Sample
-            </a>
+      </div>
+      <div class="portfolio-card">
+        <h3>Competitor Price Monitoring</h3>
+        <p>Automated daily price tracking for 50+ competitors across multiple e-commerce platforms.</p>
+        <div class="portfolio-tags">
+          <span>Automation</span>
+          <span>Daily Updates</span>
+          <span>50+ Sites</span>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="contact" id="contact">
-        <div class="section-header">
-            <h2>Let's <span>Connect</span></h2>
-            <p>Ready to start? Send me a message and I'll get back to you within 24 hours.</p>
+  <!-- CONTACT SECTION - FORMSUBMIT -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <h2 class="section-title">Ready to Automate Your Data?</h2>
+      <p class="section-subtitle">
+        Stop wasting hours on manual data entry. Let me handle the scraping so you can focus on growing your business.
+      </p>
+      
+      <div class="contact-wrapper">
+        <div class="contact-cta">
+          <h3>Get Your Free Sample</h3>
+          <p>Send me a website URL and I'll scrape a free sample for you — no commitment required.</p>
+          <div class="trust-badges">
+            <span>⚡ 24h Delivery</span>
+            <span>🔒 100% Confidential</span>
+            <span>✅ No Credit Card</span>
+          </div>
         </div>
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h3>Start Your Data Project</h3>
-                <p>Whether you need a one-time scrape or ongoing automation, I'm here to help. Let's discuss your needs and I'll send you a free sample.</p>
-                <div class="contact-links">
-                    <a href="mailto:youssef1aitaissa@gmail.com" class="contact-link">
-                        <i class="fas fa-envelope"></i>
-                        <span>youssef1aitaissa@gmail.com</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/youssef-ait-aissa-098308416/" target="_blank" class="contact-link">
-                        <i class="fab fa-linkedin"></i>
-                        <span>LinkedIn Profile</span>
-                    </a>
-                    <a href="https://www.fiverr.com/joae19901213" target="_blank" class="contact-link">
-                        <i class="fas fa-globe"></i>
-                        <span>Fiverr Profile</span>
-                    </a>
-                </div>
-            </div>
-            <div class="contact-form">
-                <form action="https://formspree.io/f/xnqevwly" method="POST">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" placeholder="John Smith" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="john@company.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="project">Project Type</label>
-                        <select id="project" name="project" required>
-                            <option value="">Select a service...</option>
-                            <option value="ecommerce">E-commerce Data Scraping</option>
-                            <option value="leads">B2B Lead Generation</option>
-                            <option value="competitor">Competitor Analysis</option>
-                            <option value="automation">Automation Script</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Tell Me About Your Project</label>
-                        <textarea id="message" name="message" placeholder="I need to scrape product data from Amazon including prices, ratings, and descriptions..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%;">
-                        <i class="fas fa-paper-plane"></i>
-                        Send Message
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
 
-    <footer>
-        <p>&copy; 2026 Youssef Ait Aissa. Web Scraping & Data Automation Expert. All rights reserved.</p>
-    </footer>
+        <form action="https://formsubmit.co/youssef1aitaissa@gmail.com" method="POST" class="contact-form">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="John Doe" required>
+          </div>
 
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="john@company.com" required>
+          </div>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, { threshold: 0.1 });
+          <div class="form-group">
+            <label for="website">Website to Scrape</label>
+            <input type="url" id="website" name="website" placeholder="https://example.com">
+          </div>
 
-        document.querySelectorAll('.service-card, .step, .portfolio-item').forEach(el => {
-            el.classList.add('fade-in');
-            observer.observe(el);
-        });
-    </script>
+          <div class="form-group">
+            <label for="data-needs">What Data Do You Need?</label>
+            <textarea id="data-needs" name="message" rows="4" placeholder="e.g. Product names, prices, images, reviews..." required></textarea>
+          </div>
+
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_subject" value="New Data Scraping Request - Portfolio Site">
+          <input type="hidden" name="_next" value="https://youssef1aitaissa-bit.github.io/youssef1aitaissa.github.io/thanks.html">
+
+          <button type="submit" class="submit-btn">
+            <span>📧 Send Request</span>
+            <small>Free sample in 24h</small>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Youssef Ait Aissa. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>
